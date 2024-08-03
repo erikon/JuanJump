@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://chaurdfjno5f1"]
+[gd_scene load_steps=10 format=3 uid="uid://chaurdfjno5f1"]
 
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_hehn1"]
 [ext_resource type="Texture2D" uid="uid://dwtluhjrm3s6o" path="res://assets/sprites/world_tileset.png" id="2_iuj4c"]
 [ext_resource type="PackedScene" uid="uid://fa2nhckjjlc5" path="res://scenes/player.tscn" id="2_yh75t"]
-[ext_resource type="PackedScene" uid="uid://c0l76qb85x4ue" path="res://scenes/ground.tscn" id="3_i7jhw"]
+[ext_resource type="PackedScene" uid="uid://c61nmc00i3lex" path="res://scenes/ground.tscn" id="3_i7jhw"]
+[ext_resource type="PackedScene" uid="uid://cnlrg68xluwhx" path="res://scenes/platform.tscn" id="4_xttqq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n5i1l"]
 texture = ExtResource("2_iuj4c")
@@ -140,10 +141,31 @@ sources/0 = SubResource("TileSetAtlasSource_n5i1l")
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_c4nfi"]
 
+[sub_resource type="Curve2D" id="Curve2D_nuuiw"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -1.66667, 87, 0, 0, 0, 0, 238.333, 87)
+}
+point_count = 2
+
 [node name="MainGame" type="Node2D"]
 position = Vector2(5, -5)
 scale = Vector2(3, 3)
 script = ExtResource("1_hehn1")
+platform_scene = ExtResource("4_xttqq")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="StartTimer" type="Timer" parent="Timers"]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[node name="GroundTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="PlatformTimer" type="Timer" parent="Timers"]
+wait_time = 1.25
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-1.66667, 1.66667)
@@ -189,15 +211,14 @@ scale = Vector2(0.999, 0.999)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="LevelDesignNodes/Ground"]
 
-[node name="StartTimer" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-autostart = true
+[node name="PlatformPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_nuuiw")
 
-[node name="GroundTimer" type="Timer" parent="."]
-one_shot = true
+[node name="PlatformSpawnLocation" type="PathFollow2D" parent="PlatformPath"]
+position = Vector2(-1.66667, 87)
 
+[connection signal="timeout" from="Timers/StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="Timers/GroundTimer" to="LevelDesignNodes/Ground" method="_on_ground_timer_timeout"]
+[connection signal="timeout" from="Timers/PlatformTimer" to="." method="_on_platform_timer_timeout"]
 [connection signal="screen_exited" from="LevelDesignNodes/Ground/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="LevelDesignNodes/Ground/VisibleOnScreenNotifier2D" to="LevelDesignNodes/Ground" method="_on_visible_on_screen_notifier_2d_screen_exited"]
-[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
-[connection signal="timeout" from="GroundTimer" to="LevelDesignNodes/Ground" method="_on_ground_timer_timeout"]
