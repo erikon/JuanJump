@@ -1,0 +1,119 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0l76qb85x4ue"]
+
+[ext_resource type="Script" path="res://scripts/ground.gd" id="1_foyuh"]
+[ext_resource type="Texture2D" uid="uid://dwtluhjrm3s6o" path="res://assets/sprites/world_tileset.png" id="1_xs7tn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ly77h"]
+size = Vector2(719, 48)
+
+[node name="Ground" type="AnimatableBody2D"]
+script = ExtResource("1_foyuh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(360.5, 23)
+shape = SubResource("RectangleShape2D_ly77h")
+
+[node name="GroundTile1" type="Sprite2D" parent="."]
+position = Vector2(24, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile2" type="Sprite2D" parent="."]
+position = Vector2(264, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile3" type="Sprite2D" parent="."]
+position = Vector2(216, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile4" type="Sprite2D" parent="."]
+position = Vector2(360, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile5" type="Sprite2D" parent="."]
+position = Vector2(312, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile6" type="Sprite2D" parent="."]
+position = Vector2(72, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile7" type="Sprite2D" parent="."]
+position = Vector2(120, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile8" type="Sprite2D" parent="."]
+position = Vector2(168, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile9" type="Sprite2D" parent="."]
+position = Vector2(408, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile10" type="Sprite2D" parent="."]
+position = Vector2(456, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile11" type="Sprite2D" parent="."]
+position = Vector2(504, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile12" type="Sprite2D" parent="."]
+position = Vector2(552, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile13" type="Sprite2D" parent="."]
+position = Vector2(600, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile14" type="Sprite2D" parent="."]
+position = Vector2(648, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="GroundTile15" type="Sprite2D" parent="."]
+position = Vector2(696, 23)
+scale = Vector2(3, 3)
+texture = ExtResource("1_xs7tn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
