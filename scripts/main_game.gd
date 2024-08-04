@@ -3,15 +3,38 @@ extends Node2D
 # Select the Platform Scene
 @export var platform_scene: PackedScene
 
+@onready var ground = $LevelDesignNodes/Ground
+@onready var player = $Player
+
+@onready var gameOverText = $LevelDesignNodes/GameOverText
+
 var platform_counter: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	new_game()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta) -> void:
 	pass
+
+# Start a new game
+func new_game() -> void:
+	# Remove all platforms from previous game
+	var nodes = get_children()
+	for node in nodes:
+		if (node.name.contains("platform")):
+			node.queue_free()
+	
+	# Set start positions
+	ground.start($StartPositionNodes/GroundStartPosition.position)
+	player.start($StartPositionNodes/PlayerStartPosition.position)
+	# Restart timers
+	$Timers/StartTimer.start()
+	$Timers/PlatformTimer.start()
+	# Set GameOver text invisible
+	gameOverText.visible = false
 
 func _on_start_timer_timeout() -> void:
 	# TODO: Add UI Timer Countdown for when game starts i.e. 5...4...3
@@ -27,6 +50,7 @@ func _on_platform_timer_timeout() -> void:
 	platform_counter += 1
 	
 	var platform = platform_scene.instantiate()
+	platform.name = "platform_" + str(platform_counter)
 
 	# Choose a random location on Path2D
 	var platform_spawn_location = $PlatformPath/PlatformSpawnLocation
@@ -43,3 +67,15 @@ func _on_platform_timer_timeout() -> void:
 
 	# Spawn the platform by adding it to the main scene
 	add_child(platform)
+
+func _game_over() -> void:
+	gameOverText.visible = true
+	$Timers/PlatformTimer.stop()
+	$Timers/RestartTimer.start()
+	
+# Restart the game once RestartTimer times out
+func _restart() -> void:
+	$Timers/RestartTimer.stop()
+	print("Restarting game")
+	new_game()
+
