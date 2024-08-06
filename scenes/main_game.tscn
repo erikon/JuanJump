@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://chaurdfjno5f1"]
+[gd_scene load_steps=11 format=3 uid="uid://chaurdfjno5f1"]
 
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_hehn1"]
 [ext_resource type="Texture2D" uid="uid://dwtluhjrm3s6o" path="res://assets/sprites/world_tileset.png" id="2_iuj4c"]
 [ext_resource type="PackedScene" uid="uid://fa2nhckjjlc5" path="res://scenes/player.tscn" id="2_yh75t"]
-[ext_resource type="PackedScene" uid="uid://c61nmc00i3lex" path="res://scenes/ground.tscn" id="3_i7jhw"]
+[ext_resource type="PackedScene" uid="uid://dbhlcvevsto0p" path="res://scenes/ground.tscn" id="3_i7jhw"]
 [ext_resource type="PackedScene" uid="uid://cnlrg68xluwhx" path="res://scenes/platform.tscn" id="4_xttqq"]
+[ext_resource type="PackedScene" uid="uid://bq61wpkgxx7wl" path="res://scenes/water.tscn" id="5_73sgd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n5i1l"]
 texture = ExtResource("2_iuj4c")
@@ -167,6 +168,10 @@ one_shot = true
 [node name="PlatformTimer" type="Timer" parent="Timers"]
 wait_time = 1.25
 
+[node name="RestartTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-1.66667, 1.66667)
 tile_set = SubResource("TileSet_80gme")
@@ -211,14 +216,37 @@ scale = Vector2(0.999, 0.999)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="LevelDesignNodes/Ground"]
 
+[node name="WaterArea" parent="LevelDesignNodes" instance=ExtResource("5_73sgd")]
+position = Vector2(5, 715)
+scale = Vector2(0.999, 0.999)
+
+[node name="GameOverText" type="Label" parent="LevelDesignNodes"]
+offset_left = 217.0
+offset_top = 160.0
+offset_right = 489.0
+offset_bottom = 229.0
+theme_override_font_sizes/font_size = 50
+text = "Game Over"
+
 [node name="PlatformPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_nuuiw")
 
 [node name="PlatformSpawnLocation" type="PathFollow2D" parent="PlatformPath"]
 position = Vector2(-1.66667, 87)
 
+[node name="StartPositionNodes" type="Node" parent="."]
+
+[node name="PlayerStartPosition" type="Marker2D" parent="StartPositionNodes"]
+position = Vector2(124, 237.333)
+
+[node name="GroundStartPosition" type="Marker2D" parent="StartPositionNodes"]
+position = Vector2(0, 710)
+
 [connection signal="timeout" from="Timers/StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="timeout" from="Timers/GroundTimer" to="LevelDesignNodes/Ground" method="_on_ground_timer_timeout"]
 [connection signal="timeout" from="Timers/PlatformTimer" to="." method="_on_platform_timer_timeout"]
+[connection signal="timeout" from="Timers/RestartTimer" to="." method="_restart"]
 [connection signal="screen_exited" from="LevelDesignNodes/Ground/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="LevelDesignNodes/Ground/VisibleOnScreenNotifier2D" to="LevelDesignNodes/Ground" method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="hit" from="LevelDesignNodes/WaterArea" to="." method="_game_over"]
+[connection signal="hit" from="LevelDesignNodes/WaterArea" to="Player" method="_game_over"]
