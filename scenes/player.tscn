@@ -1,7 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://fa2nhckjjlc5"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_d81mk"]
-
 [ext_resource type="Texture2D" uid="uid://7qkxotekm6v1" path="res://assets/sprites/sheet_juan_idle.png" id="2_4o4ho"]
 [ext_resource type="Texture2D" uid="uid://bmp8sc2360024" path="res://assets/sprites/sheet_juan_hurt.png" id="2_86mvw"]
 [ext_resource type="Texture2D" uid="uid://c4j0x7bmsc0jx" path="res://assets/sprites/sheet_juan_death.png" id="2_sls78"]

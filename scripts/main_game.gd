@@ -1,7 +1,8 @@
 extends Node2D
 
-# Select the Platform Scene
-@export var platform_scene: PackedScene
+# Set the different platform scenes
+@export var standard_platform_scene: PackedScene
+@export var water_platform_scene: PackedScene
 
 @onready var ground = $LevelDesignNodes/Ground
 @onready var player = $Player
@@ -22,10 +23,7 @@ func _process(_delta) -> void:
 # Start a new game
 func new_game() -> void:
 	# Remove all platforms from previous game
-	var nodes = get_children()
-	for node in nodes:
-		if (node.name.contains("platform")):
-			node.queue_free()
+	get_tree().call_group("platforms", "queue_free")
 	
 	# Set start positions
 	ground.start($StartPositionNodes/GroundStartPosition.position)
@@ -46,10 +44,13 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	$Timers/GroundTimer.stop()
 
 func _on_platform_timer_timeout() -> void:
+	var random_platforms: Array[PackedScene] = [standard_platform_scene, water_platform_scene]
+
 	# Increment Platform Timer Count - to be used to increase velocity of platforms over time
 	platform_counter += 1
 	
-	var platform = platform_scene.instantiate()
+	#var platform = standard_platform_scene.instantiate()
+	var platform = random_platforms.pick_random().instantiate()
 	platform.name = "platform_" + str(platform_counter)
 
 	# Choose a random location on Path2D
