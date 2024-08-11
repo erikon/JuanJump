@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://b7204pmuy3fy3" path="res://assets/sprites/platforms.png" id="1_ju1x0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kgsjp"]
-size = Vector2(31, 8)
+size = Vector2(88, 24)
 
-[node name="platform" type="RigidBody2D"]
+[node name="platform" type="RigidBody2D" groups=["platforms"]]
 z_index = 1
 gravity_scale = 0.0
 lock_rotation = true
