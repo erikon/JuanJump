@@ -1,4 +1,5 @@
-[gd_scene load_steps=13 format=3 uid="uid://chaurdfjno5f1"]
+[gd_scene load_steps=14 format=3 uid="uid://chaurdfjno5f1"]
+
 
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_hehn1"]
 [ext_resource type="Texture2D" uid="uid://dwtluhjrm3s6o" path="res://assets/sprites/world_tileset.png" id="2_iuj4c"]
@@ -8,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bfqttm2vcixtf" path="res://scenes/ice_platform.tscn" id="4_efkt2"]
 [ext_resource type="PackedScene" uid="uid://cnlrg68xluwhx" path="res://scenes/platform.tscn" id="4_xttqq"]
 [ext_resource type="PackedScene" uid="uid://bq61wpkgxx7wl" path="res://scenes/water.tscn" id="5_73sgd"]
+[ext_resource type="PackedScene" uid="uid://bsx608jyproh6" path="res://scenes/power_up.tscn" id="8_wq66t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n5i1l"]
 texture = ExtResource("2_iuj4c")
@@ -146,7 +148,13 @@ sources/0 = SubResource("TileSetAtlasSource_n5i1l")
 
 [sub_resource type="Curve2D" id="Curve2D_nuuiw"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -1.66667, 87, 0, 0, 0, 0, 238.333, 87)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0.666667, 0, 0, 0, 0, 228, 0.666667)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_xxk02"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -0.333333, -1.66667, 0, 0, 0, 0, 227.333, 0)
 }
 point_count = 2
 
@@ -157,6 +165,7 @@ script = ExtResource("1_hehn1")
 standard_platform_scene = ExtResource("4_xttqq")
 water_platform_scene = ExtResource("3_7vnm5")
 ice_platform_scene = ExtResource("4_efkt2")
+power_up_scene = ExtResource("8_wq66t")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -166,7 +175,7 @@ one_shot = true
 autostart = true
 
 [node name="GroundTimer" type="Timer" parent="Timers"]
-wait_time = 3.0
+wait_time = 10.0
 one_shot = true
 
 [node name="PlatformTimer" type="Timer" parent="Timers"]
@@ -175,6 +184,9 @@ wait_time = 1.25
 [node name="RestartTimer" type="Timer" parent="Timers"]
 wait_time = 3.0
 one_shot = true
+
+[node name="PowerUpTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-1.66667, 1.66667)
@@ -185,14 +197,6 @@ layer_0/tile_data = PackedInt32Array(1048576, 0, 11, 1114112, 0, 11, 1114113, 0,
 
 [node name="Player" parent="." instance=ExtResource("2_yh75t")]
 position = Vector2(124, 237.333)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(2.66665, -9.66668)
-limit_left = 0
-limit_top = -960
-limit_right = 720
-limit_bottom = 1000
-position_smoothing_enabled = true
 
 [node name="LevelDesignNodes" type="Node" parent="."]
 
@@ -236,7 +240,16 @@ text = "Game Over"
 curve = SubResource("Curve2D_nuuiw")
 
 [node name="PlatformSpawnLocation" type="PathFollow2D" parent="PlatformPath"]
-position = Vector2(-1.66667, 87)
+position = Vector2(0, 0.666667)
+
+[node name="PowerUpPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_xxk02")
+metadata/_edit_group_ = true
+
+[node name="PowerUpSpawnLocation" type="PathFollow2D" parent="PowerUpPath"]
+position = Vector2(-0.333333, -1.66667)
+rotation = 0.00732051
+scale = Vector2(2, 2)
 
 [node name="StartPositionNodes" type="Node" parent="."]
 
@@ -246,10 +259,19 @@ position = Vector2(124, 237.333)
 [node name="GroundStartPosition" type="Marker2D" parent="StartPositionNodes"]
 position = Vector2(0, 710)
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(126.667, 227.666)
+limit_left = 0
+limit_top = -960
+limit_right = 720
+limit_bottom = 1000
+position_smoothing_enabled = true
+
 [connection signal="timeout" from="Timers/StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="timeout" from="Timers/GroundTimer" to="LevelDesignNodes/Ground" method="_on_ground_timer_timeout"]
 [connection signal="timeout" from="Timers/PlatformTimer" to="." method="_on_platform_timer_timeout"]
 [connection signal="timeout" from="Timers/RestartTimer" to="." method="_restart"]
+[connection signal="timeout" from="Timers/PowerUpTimer" to="." method="_on_power_up_timer_timeout"]
 [connection signal="screen_exited" from="LevelDesignNodes/Ground/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="LevelDesignNodes/Ground/VisibleOnScreenNotifier2D" to="LevelDesignNodes/Ground" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="hit" from="LevelDesignNodes/WaterArea" to="." method="_game_over"]
