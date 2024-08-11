@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfqttm2vcixtf"]
+
+[ext_resource type="Script" path="res://scripts/ice_platform.gd" id="1_vl1nj"]
+[ext_resource type="Texture2D" uid="uid://b7204pmuy3fy3" path="res://assets/sprites/platforms.png" id="2_1mhu1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gkj8w"]
+size = Vector2(96, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_428kq"]
+size = Vector2(96, 27)
+
+[sub_resource type="Animation" id="Animation_cy33j"]
+resource_name = "platform_melt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_2l88p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mpqsb"]
+_data = {
+"RESET": SubResource("Animation_2l88p"),
+"platform_melt": SubResource("Animation_cy33j")
+}
+
+[node name="IcePlatform" type="RigidBody2D" groups=["platforms"]]
+gravity_scale = 0.0
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_vl1nj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_1mhu1")
+region_enabled = true
+region_rect = Rect2(16, 48, 32, 9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gkj8w")
+one_way_collision = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 2.98023e-08)
+scale = Vector2(0.2, 0.2)
+
+[node name="hit_box" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_428kq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mpqsb")
+}
+playback_default_blend_time = 1.0
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
