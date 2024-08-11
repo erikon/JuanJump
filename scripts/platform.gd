@@ -1,14 +1,12 @@
 extends RigidBody2D
 
-# Called when the node enters the scene tree for the first time.
+var locked_x_position: int
+
 func _ready() -> void:
-	pass # Replace with function body.
+	locked_x_position = position.x
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta) -> void:
-	pass
-
+func _physics_process(_delta) -> void:
+	position.x = locked_x_position
 
 # Remove platforms when outside screen
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:

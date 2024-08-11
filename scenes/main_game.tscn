@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://chaurdfjno5f1"]
+[gd_scene load_steps=13 format=3 uid="uid://chaurdfjno5f1"]
 
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_hehn1"]
 [ext_resource type="Texture2D" uid="uid://dwtluhjrm3s6o" path="res://assets/sprites/world_tileset.png" id="2_iuj4c"]
 [ext_resource type="PackedScene" uid="uid://fa2nhckjjlc5" path="res://scenes/player.tscn" id="2_yh75t"]
 [ext_resource type="PackedScene" uid="uid://cn0xfcctl3cvh" path="res://scenes/water_platform.tscn" id="3_7vnm5"]
 [ext_resource type="PackedScene" uid="uid://dbhlcvevsto0p" path="res://scenes/ground.tscn" id="3_i7jhw"]
+[ext_resource type="PackedScene" uid="uid://bfqttm2vcixtf" path="res://scenes/ice_platform.tscn" id="4_efkt2"]
 [ext_resource type="PackedScene" uid="uid://cnlrg68xluwhx" path="res://scenes/platform.tscn" id="4_xttqq"]
 [ext_resource type="PackedScene" uid="uid://bq61wpkgxx7wl" path="res://scenes/water.tscn" id="5_73sgd"]
 
@@ -155,6 +156,7 @@ scale = Vector2(3, 3)
 script = ExtResource("1_hehn1")
 standard_platform_scene = ExtResource("4_xttqq")
 water_platform_scene = ExtResource("3_7vnm5")
+ice_platform_scene = ExtResource("4_efkt2")
 
 [node name="Timers" type="Node" parent="."]
 

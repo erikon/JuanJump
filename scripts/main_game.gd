@@ -3,6 +3,7 @@ extends Node2D
 # Set the different platform scenes
 @export var standard_platform_scene: PackedScene
 @export var water_platform_scene: PackedScene
+@export var ice_platform_scene: PackedScene
 
 @onready var ground = $LevelDesignNodes/Ground
 @onready var player = $Player
@@ -14,7 +15,6 @@ var platform_counter: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	new_game()
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta) -> void:
@@ -44,15 +44,19 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	$Timers/GroundTimer.stop()
 
 func _on_platform_timer_timeout() -> void:
-	var random_platforms: Array[PackedScene] = [standard_platform_scene, water_platform_scene]
+	var random_platforms: Array[PackedScene] = [standard_platform_scene, water_platform_scene, ice_platform_scene]
+	#var random_platforms: Array[PackedScene] = [ice_platform_scene]
 
 	# Increment Platform Timer Count - to be used to increase velocity of platforms over time
 	platform_counter += 1
 	
 	#var platform = standard_platform_scene.instantiate()
 	var platform = random_platforms.pick_random().instantiate()
-	platform.name = "platform_" + str(platform_counter)
 
+	if platform.name == "WaterPlatform":
+		platform.hit.connect(_game_over)
+		platform.hit.connect(player._game_over)
+		
 	# Choose a random location on Path2D
 	var platform_spawn_location = $PlatformPath/PlatformSpawnLocation
 	platform_spawn_location.progress_ratio = randf()
