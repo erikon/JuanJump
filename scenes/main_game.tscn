@@ -1,5 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://chaurdfjno5f1"]
-
+[gd_scene load_steps=15 format=3 uid="uid://chaurdfjno5f1"]
 
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_hehn1"]
 [ext_resource type="Texture2D" uid="uid://dwtluhjrm3s6o" path="res://assets/sprites/world_tileset.png" id="2_iuj4c"]
@@ -248,7 +247,7 @@ metadata/_edit_group_ = true
 
 [node name="PowerUpSpawnLocation" type="PathFollow2D" parent="PowerUpPath"]
 position = Vector2(-0.333333, -1.66667)
-rotation = 0.00732051
+rotation = 0.00732054
 scale = Vector2(2, 2)
 
 [node name="StartPositionNodes" type="Node" parent="."]
